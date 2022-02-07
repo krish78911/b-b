@@ -18,8 +18,19 @@
         <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
         <script>
         $( function() {
-            $( "#datepickerFrom" ).datepicker({ dateFormat: 'yy-mm-dd' });
-            $( "#datepickerTo" ).datepicker({ dateFormat: 'yy-mm-dd' });
+            $( "#datepickerFrom" ).datepicker({ 
+                dateFormat: 'yy-mm-dd',
+                minDate: new Date(),
+                onSelect: function(selectedDate) {
+                    var nextDay = new Date(selectedDate);
+                    nextDay.setDate(nextDay.getDate() + 1);
+                    $("#datepickerTo").datepicker("option","minDate", nextDay);
+			    }
+            });
+            $( "#datepickerTo" ).datepicker({ 
+                dateFormat: 'yy-mm-dd',
+                minDate: new Date(),
+            });
         } );
         </script>
 
