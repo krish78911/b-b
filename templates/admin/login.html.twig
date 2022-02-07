@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    {% include 'logo.html.twig' %}
+
+    <div class="row">
+        <div class="container">
+                {{form_start(loginform, {'attr': {'id': 'loginform'}})}}
+                <div class="row loginForm">
+                    <div class="col-lg-12">
+                        {{form_widget(loginform.username, {'attr': {'placeholder': 'Username'}}) }}
+                    </div>
+                    <div class="col-lg-12">
+                        {{form_widget(loginform.password, {'attr': {'placeholder': 'Password'}}) }}
+                    </div>
+                </div>
+                {{form_end(loginform)}}
+            <div class="row">
+                <div class="col-lg-12 loginIncorrectMessagee"><!-- form submit success message --></div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'about.html.twig' %}
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $("#loginform").submit(function(e) {
+
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            var form = $(this);
+            var actionUrl = form.attr('action');
+            
+            $.ajax({
+                type: "POST",
+                url: actionUrl,
+                data: form.serialize(), // serializes the form's elements.
+                success: function(data)
+                {
+                    location.href = '/admin';
+                },
+                error: function(jqXHR, textStatus, errorThrown) 
+                {
+                    $('.loginIncorrectMessagee').html('Invalid Username or Password...');
+                    setTimeout(function(){
+                        $('.loginIncorrectMessagee').empty();
+                    }, 3000)
+                }
+            });
+            
+        });
+    </script>
+{% endblock %}
