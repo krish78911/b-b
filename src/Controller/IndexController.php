@@ -123,6 +123,10 @@ class IndexController extends AbstractController
                                     
         $rooms = $this->getDoctrine()->getRepository(Rooms::class)->findBy(array('id' => $id));
 
+        if(empty($rooms)) {
+            return $this->redirectToRoute('home');
+        }
+
         $choices = array('persons' => '');
         for($i=1; $i<=$rooms[0]->getMaxpeople(); $i++) {
             $choices += array($i => $i);

@@ -22,8 +22,7 @@ class AdminController extends AbstractController
     public function admin(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $manager = $this->getDoctrine()->getManager();
-        $conn = $manager->getConnection();
+        $conn = $em->getConnection();
         $bookings= $conn->query('select bookings.*, rooms.roomtype from bookings INNER JOIN rooms ON rooms.id = bookings.roomid')->fetchAll();
 
         $editform = $this->createForm(EditBookType::class);
@@ -143,6 +142,7 @@ class AdminController extends AbstractController
      */
     public function deletebooking(Request $request, $id)
     {
+        
         $em = $this->getDoctrine()->getManager();
         $record = $em->getRepository(Bookings::class)->find($id);
         if (!$record) {
@@ -150,10 +150,13 @@ class AdminController extends AbstractController
                 'No candidate found for id '.$id
             );
         }
+        
         $em->remove($record);
         $em->flush();
+        
+        $conn = $em->getConnection();
+        $bookings= $conn->query('select bookings.*, rooms.roomtype from bookings INNER JOIN rooms ON rooms.id = bookings.roomid')->fetchAll();
 
-        $bookings = $this->getDoctrine()->getRepository(Bookings::class)->findAll();
         $editform = $this->createForm(EditBookType::class);
         $editform->add('edit', SubmitType::class, [
             'attr' => ['class' => 'editBookingButton'],
@@ -163,6 +166,7 @@ class AdminController extends AbstractController
             'bookings' => $bookings,
             'editform' => $editform,
         ]);
+
     }
 
     /**

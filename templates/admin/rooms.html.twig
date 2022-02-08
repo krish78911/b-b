@@ -27,7 +27,7 @@
                         
                         {{form_start(form, {'attr': {'class': 'editroomform'}})}}
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12" style="display: none;">
                                     {{ form_label(form.id, 'id') }}
                                     {{form_widget(form.id, {'attr': {'placeholder': 'id', 'value': room.id}}) }}
                                 </div>
@@ -88,7 +88,7 @@
                 $('#adminRoom').html(data);
             },
             error: function(e) {
-                alert('Error: '+e);
+                //alert('Error: '+e);
             }  
         });
     });

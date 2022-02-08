@@ -90,7 +90,8 @@
                 $('#adminBooking').html(data);
             },
             error: function(e) {
-                alert('Error: '+e);
+                var str = JSON.stringify(e);
+                alert('Error: '+str);
             }  
         });
     });
