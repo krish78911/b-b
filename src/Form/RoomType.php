@@ -105,13 +105,6 @@ class RoomType extends AbstractType
                     'no' => 'no'
                 ],
             ])
-            ->add('privatebathroom', ChoiceType::class, [
-                'choices'  => [
-                    'Private Bathroom' => '',
-                    'yes' => 'yes',
-                    'no' => 'no'
-                ],
-            ])
             ->add('description', TextareaType::class, [
                 'attr' => ['maxlength' => 400]
             ])
